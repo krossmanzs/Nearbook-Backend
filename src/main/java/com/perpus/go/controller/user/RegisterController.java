@@ -1,4 +1,4 @@
-package com.perpus.go.controller;
+package com.perpus.go.controller.user;
 
 import com.perpus.go.dto.RegisterUserRequest;
 import com.perpus.go.model.User;

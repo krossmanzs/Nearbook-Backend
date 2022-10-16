@@ -1,4 +1,4 @@
-package com.perpus.go.controller;
+package com.perpus.go.controller.user;
 
 import org.springframework.web.bind.annotation.RestController;
 
