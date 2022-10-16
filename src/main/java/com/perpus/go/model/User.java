@@ -31,12 +31,18 @@ public class User {
     private Date createdAt;
     @Transient
     @UpdateTimestamp
-    private Date updatedAt; // TODO: 10/17/2022 change all Date to LocalDate 
+    private Date updatedAt; // TODO: 10/17/2022 change all Date to LocalDate
 
-    public User(String firstName, String lastName, String email, String password) {
+    @Column(length = 6)
+    private String verificationCode;
+    private boolean enabled;
+
+    public User(String firstName, String lastName, String email, String password, String verificationCode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.verificationCode = verificationCode;
+        this.enabled = false;
     }
 }

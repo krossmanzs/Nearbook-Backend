@@ -15,4 +15,5 @@ public class UserDetailResponse {
     private String lastName;
     private String email;
     private Date createdAt;
+    private boolean verified;
 }

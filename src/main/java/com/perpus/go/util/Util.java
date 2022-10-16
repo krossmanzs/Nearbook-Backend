@@ -9,4 +9,8 @@ public class Util {
                 .matcher(str)
                 .matches();
     }
+
+    public static String generateVerificationCode() {
+        return String.format("%06d", (int)Math.floor(Math.random()*(999999 + 1)+0));
+    }
 }

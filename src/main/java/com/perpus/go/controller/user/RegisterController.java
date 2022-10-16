@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
+
 @RestController
 @RequestMapping("/api/v1")
 public class RegisterController {
@@ -18,7 +21,8 @@ public class RegisterController {
     private UserService userService;
 
     @PostMapping("/user/register")
-    public ResponseEntity<String> registerNewUser(@RequestBody RegisterUserRequest userDetail) {
+    public ResponseEntity<String> registerNewUser(@RequestBody RegisterUserRequest userDetail)
+            throws MessagingException, UnsupportedEncodingException {
         String fName = userDetail.getFirstName();
         String lName = userDetail.getLastName();
         String email = userDetail.getEmail();
@@ -50,6 +54,7 @@ public class RegisterController {
         User user = userService.registerNewUserService(fName, lName, email, password);
 
         if (user != null) {
+            userService.sendVerificationEmail(user);
             return new ResponseEntity<>("User Registered Successfully", HttpStatus.OK);
         }
 

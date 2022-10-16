@@ -35,7 +35,8 @@ public class LoginController {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
-                user.getCreatedAt()
+                user.getCreatedAt(),
+                user.isEnabled()
         );
 
         return new ResponseEntity<>(userDetailResponse, HttpStatus.OK);
