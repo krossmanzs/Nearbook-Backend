@@ -31,7 +31,7 @@ public class User {
     private Date createdAt;
     @Transient
     @UpdateTimestamp
-    private Date updatedAt;
+    private Date updatedAt; // TODO: 10/17/2022 change all Date to LocalDate 
 
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
