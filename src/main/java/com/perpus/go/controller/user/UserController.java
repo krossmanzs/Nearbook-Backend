@@ -1,6 +1,7 @@
 package com.perpus.go.controller.user;
 
 import com.perpus.go.service.UserService;
+import com.perpus.go.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,16 @@ public class UserController {
             @RequestParam("email") String email,
             @RequestParam("code") String verificationCode
     ) throws MessagingException, UnsupportedEncodingException {
+        // check field
+        if (email.isEmpty() || verificationCode.isEmpty()) {
+            return new ResponseEntity<>("Please Complete all Fields", HttpStatus.BAD_REQUEST);
+        }
+
+        // check email format
+        if (Util.patternNotMatches(email, "^(.+)@(\\S+)$")) {
+            return new ResponseEntity<>("Wrong Email format", HttpStatus.BAD_REQUEST);
+        }
+
         // verify the user email and code
         boolean verified = userService.verify(email, verificationCode);
 
