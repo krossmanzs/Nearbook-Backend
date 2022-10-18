@@ -3,24 +3,48 @@ package com.perpus.go.service;
 import com.perpus.go.model.User;
 import com.perpus.go.repository.UserRepository;
 import com.perpus.go.util.Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-public class UserService {
+@Slf4j
+public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private JavaMailSender mailSender;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        System.out.println("username: " + email);
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()) {
+            log.error("User {} not found in the database", email);
+            throw new UsernameNotFoundException(String.format("%s not found", email));
+        } else {
+            log.info("User found in the database");
+        }
+
+        return new org.springframework.security.core.userdetails.User(
+                user.get().getEmail(),
+                user.get().getPassword(),
+                new ArrayList<>()
+        );
+    }
 
     public User registerNewUserService(
             String fname,
