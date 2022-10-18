@@ -27,6 +27,10 @@ public class User {
     private String email;
     @NotNull
     private String password;
+
+
+
+
     @CreationTimestamp
     private Date createdAt;
     @Transient

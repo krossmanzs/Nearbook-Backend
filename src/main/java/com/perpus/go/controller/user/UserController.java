@@ -5,13 +5,16 @@ import com.perpus.go.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -45,5 +48,25 @@ public class UserController {
         } else {
             return new ResponseEntity<>("Verification failed!", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PostMapping("/user/save")
+    public ResponseEntity<String> uploadFile(
+            @RequestParam("id") int id,
+            @RequestParam("image") MultipartFile multipartFile
+    ) throws IOException {
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        String uploadDir = "test-photos/" + id;
+        String extension = Util.getFileExtension(fileName).toLowerCase(Locale.ROOT);
+        List<String> availableExtension = List.of("png","jpg","jpeg");
+        fileName = String.format("ktp1_%d.%s", id, extension);
+
+        if (availableExtension.contains(extension)) {
+            Util.saveFile(uploadDir, fileName, multipartFile);
+            return new ResponseEntity<>("File uploaded successfully",HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Wrong file format!",HttpStatus.BAD_REQUEST);
+        }
+
     }
 }
