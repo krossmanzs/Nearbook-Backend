@@ -20,7 +20,7 @@ public class RegisterController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/user/register")
+    @PostMapping("/register")
     public ResponseEntity<String> registerNewUser(@RequestBody RegisterUserRequest userDetail)
             throws MessagingException, UnsupportedEncodingException {
         String fName = userDetail.getFirstName();
