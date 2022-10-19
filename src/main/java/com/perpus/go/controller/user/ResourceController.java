@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.perpus.go.config.Token;
 import com.perpus.go.model.User;
 import com.perpus.go.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class ResourceController {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
                 String refresh_token = authorizationHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                Algorithm algorithm = Algorithm.HMAC256(Token.SECRET_KEY.getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refresh_token);
                 String email = decodedJWT.getSubject();
@@ -43,7 +44,7 @@ public class ResourceController {
                 }
                 String access_token = JWT.create()
                         .withSubject(user.get().getEmail())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                        .withExpiresAt(new Date(System.currentTimeMillis() + Token.ACCESS_EXP_TIME))
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles", new ArrayList<>())
                         .sign(algorithm);
