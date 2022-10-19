@@ -9,4 +9,6 @@ public class Endpoints {
     public static final String RESET_PASSWORD_BY_EMAIL = MAIN + "/user/reset/password_by_email";
     public static final String REGISTER_KTP = MAIN + "/user/register-ktp";
     public static final String USER_DETAIL = MAIN + "/user/get-detail";
+    public static final String OPTION_AGAMA = MAIN + "/option/agama";
+    public static final String OPTION_KAWIN = MAIN + "/option/kawin";
 }

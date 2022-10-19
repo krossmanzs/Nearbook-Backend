@@ -7,12 +7,19 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.perpus.go.config.Token;
 import com.perpus.go.model.user.User;
+import com.perpus.go.model.user.ktp.Agama;
+import com.perpus.go.model.user.ktp.Kawin;
+import com.perpus.go.service.resource.ResourceService;
 import com.perpus.go.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +34,21 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequestMapping("/api/v1")
 public class ResourceController {
     private final UserService userService;
+    private final ResourceService resourceService;
+
+    @GetMapping("/option/kawin")
+    public ResponseEntity<List<Kawin>> getKawinOption(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String accessToken
+    ) {
+        return new ResponseEntity<>(resourceService.getKawins(), HttpStatus.OK);
+    }
+
+    @GetMapping("/option/agama")
+    public ResponseEntity<List<Agama>> getAgamaOption(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String accessToken
+    ) {
+        return new ResponseEntity<>(resourceService.getAgamas(), HttpStatus.OK);
+    }
 
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {

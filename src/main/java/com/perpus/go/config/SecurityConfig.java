@@ -48,7 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers(
                 Endpoints.REGISTER_KTP + "/**",
-                Endpoints.USER_DETAIL + "/**"
+                Endpoints.USER_DETAIL + "/**",
+                Endpoints.OPTION_AGAMA + "/**",
+                Endpoints.OPTION_KAWIN + "/**"
                 ).hasAnyAuthority("ROLE_USER");
 //        http.authorizeRequests().antMatchers(POST, "/api/user/save/**").hasAnyAuthority("ROLE_ADMIN");
 
