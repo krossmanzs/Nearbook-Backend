@@ -1,5 +1,6 @@
 package com.perpus.go.util;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -48,5 +49,9 @@ public class Util {
         } else {
             return fileName;
         }
+    }
+
+    public static String generatedHashedPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 }
