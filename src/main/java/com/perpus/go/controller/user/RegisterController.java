@@ -2,7 +2,7 @@ package com.perpus.go.controller.user;
 
 import com.perpus.go.dto.RegisterUserRequest;
 import com.perpus.go.model.User;
-import com.perpus.go.service.UserService;
+import com.perpus.go.service.UserServiceImpl;
 import com.perpus.go.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.io.UnsupportedEncodingException;
 public class RegisterController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @PostMapping("/register")
     public ResponseEntity<String> registerNewUser(@RequestBody RegisterUserRequest userDetail)
@@ -39,7 +39,7 @@ public class RegisterController {
         }
 
         // check if email exists
-        if (userService.findUserByEmail(email).isPresent()) {
+        if (userServiceImpl.findUserByEmail(email).isPresent()) {
             return new ResponseEntity<>("Email Already exist", HttpStatus.CONFLICT);
         }
 
@@ -51,10 +51,10 @@ public class RegisterController {
 
         password = (BCrypt.hashpw(password, BCrypt.gensalt()));
 
-        User user = userService.registerNewUserService(fName, lName, email, password);
+        User user = userServiceImpl.registerNewUserService(fName, lName, email, password);
 
         if (user != null) {
-            userService.sendVerificationEmail(user);
+            userServiceImpl.sendVerificationEmail(user);
             return new ResponseEntity<>("User Registered Successfully", HttpStatus.OK);
         }
 

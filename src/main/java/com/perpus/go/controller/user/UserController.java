@@ -1,6 +1,6 @@
 package com.perpus.go.controller.user;
 
-import com.perpus.go.service.UserService;
+import com.perpus.go.service.UserServiceImpl;
 import com.perpus.go.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ import java.util.Objects;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @GetMapping("/user/verify")
     public ResponseEntity<String> verifyAccount(
@@ -39,7 +39,7 @@ public class UserController {
         }
 
         // verify the user email and code
-        boolean verified = userService.verify(email, verificationCode);
+        boolean verified = userServiceImpl.verify(email, verificationCode);
 
         System.out.println("Code: " + verificationCode);
 
@@ -67,6 +67,5 @@ public class UserController {
         } else {
             return new ResponseEntity<>("Wrong file format!",HttpStatus.BAD_REQUEST);
         }
-
     }
 }
