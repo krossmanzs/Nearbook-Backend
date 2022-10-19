@@ -1,8 +1,8 @@
 package com.perpus.go.controller.user;
 
-import com.perpus.go.dto.RegisterUserRequest;
-import com.perpus.go.model.User;
-import com.perpus.go.service.UserService;
+import com.perpus.go.dto.user.RegisterUserRequest;
+import com.perpus.go.model.user.User;
+import com.perpus.go.service.user.UserService;
 import com.perpus.go.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

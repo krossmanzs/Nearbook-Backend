@@ -1,6 +1,6 @@
-package com.perpus.go.repository;
+package com.perpus.go.repository.user;
 
-import com.perpus.go.model.ktp.Ktp;
+import com.perpus.go.model.user.ktp.Ktp;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

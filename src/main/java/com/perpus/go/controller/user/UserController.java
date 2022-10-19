@@ -1,11 +1,11 @@
 package com.perpus.go.controller.user;
 
-import com.perpus.go.dto.ForgotPasswordByEmailRequest;
-import com.perpus.go.dto.RegisterKtpUserRequest;
+import com.perpus.go.dto.user.ForgotPasswordByEmailRequest;
+import com.perpus.go.dto.user.RegisterKtpUserRequest;
 import com.perpus.go.exception.BadRequestException;
 import com.perpus.go.exception.NotFoundException;
-import com.perpus.go.model.User;
-import com.perpus.go.service.UserService;
+import com.perpus.go.model.user.User;
+import com.perpus.go.service.user.UserService;
 import com.perpus.go.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

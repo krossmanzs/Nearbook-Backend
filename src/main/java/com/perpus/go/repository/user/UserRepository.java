@@ -1,6 +1,6 @@
-package com.perpus.go.repository;
+package com.perpus.go.repository.user;
 
-import com.perpus.go.model.User;
+import com.perpus.go.model.user.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

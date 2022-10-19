@@ -1,7 +1,7 @@
-package com.perpus.go.model;
+package com.perpus.go.model.user;
 
-import com.perpus.go.dto.RegisterUserRequest;
-import com.perpus.go.model.ktp.Ktp;
+import com.perpus.go.dto.user.RegisterUserRequest;
+import com.perpus.go.model.user.ktp.Ktp;
 import com.perpus.go.util.Util;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

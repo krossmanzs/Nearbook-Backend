@@ -1,14 +1,13 @@
-package com.perpus.go.service;
+package com.perpus.go.service.user;
 
-import com.perpus.go.dto.RegisterKtpUserRequest;
-import com.perpus.go.dto.RegisterUserRequest;
-import com.perpus.go.model.Role;
-import com.perpus.go.model.User;
-import com.perpus.go.model.ktp.Agama;
-import com.perpus.go.model.ktp.Kawin;
+import com.perpus.go.dto.user.RegisterKtpUserRequest;
+import com.perpus.go.dto.user.RegisterUserRequest;
+import com.perpus.go.model.user.Role;
+import com.perpus.go.model.user.User;
+import com.perpus.go.model.user.ktp.Agama;
+import com.perpus.go.model.user.ktp.Kawin;
 
 import javax.mail.MessagingException;
-import javax.validation.constraints.Email;
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 

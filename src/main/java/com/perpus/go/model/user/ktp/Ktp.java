@@ -1,7 +1,7 @@
-package com.perpus.go.model.ktp;
+package com.perpus.go.model.user.ktp;
 
 
-import com.perpus.go.dto.RegisterKtpUserRequest;
+import com.perpus.go.dto.user.RegisterKtpUserRequest;
 import lombok.*;
 
 import javax.persistence.*;

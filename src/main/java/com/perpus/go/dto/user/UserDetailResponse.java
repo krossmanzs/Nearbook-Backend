@@ -1,4 +1,4 @@
-package com.perpus.go.dto;
+package com.perpus.go.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.perpus.go.model;
+package com.perpus.go.model.user;
 
 import lombok.*;
 

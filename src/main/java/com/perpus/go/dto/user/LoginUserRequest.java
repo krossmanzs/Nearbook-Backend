@@ -1,4 +1,4 @@
-package com.perpus.go.dto;
+package com.perpus.go.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
