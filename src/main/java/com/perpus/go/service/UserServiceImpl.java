@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
+import javax.validation.constraints.Email;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,6 +68,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         registerUserRequest.setPassword(Util.generatedHashedPassword(registerUserRequest.getPassword()));
         userRepository.save(new User(registerUserRequest));
         addRoleToUser(registerUserRequest.getEmail(), "ROLE_USER");
+    }
+
+    @Override
+    public void sendPasswordResetCodeEmail(User user) throws MessagingException, UnsupportedEncodingException {
+        String subject = "Go-Perpus Reset Password Code";
+        String senderName = "Go-Perpus";
+        String mailContent = "<p>Dear " + user.getName() + ",</p>";
+        user.setVerificationCode(Util.generateVerificationCode());
+        mailContent += "<p>Here is your reset password code: <b>" + user.getVerificationCode() + "</b></p>";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        helper.setFrom("linuxpringsewu@gmail.com", senderName);
+        helper.setTo(user.getEmail());
+        helper.setText(mailContent, true);
+        helper.setSubject(subject);
+
+        mailSender.send(message);
     }
 
     @Override

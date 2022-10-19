@@ -3,6 +3,8 @@ package com.perpus.go.controller.user;
 import com.perpus.go.dto.ForgotPasswordByEmailRequest;
 import com.perpus.go.dto.RegisterKtpUserRequest;
 import com.perpus.go.exception.BadRequestException;
+import com.perpus.go.exception.NotFoundException;
+import com.perpus.go.model.User;
 import com.perpus.go.service.UserService;
 import com.perpus.go.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,16 +74,17 @@ public class UserController {
     }
 
     @GetMapping("/user/reset/get_code")
-    public ResponseEntity<?> getResetCode(@RequestParam("email") String email) {
+    public ResponseEntity<?> getResetCode(@RequestParam("email") String email)
+            throws MessagingException, UnsupportedEncodingException {
         if (Util.patternNotMatches(email, "^(.+)@(\\S+)$")) {
             return new ResponseEntity<>("Wrong Email format", HttpStatus.BAD_REQUEST);
         }
 
-        String code = userService.generateNewVerificationCode(email);
-        Map<String, String> response = new HashMap<>();
-        response.put("code",code);
+        User user = userService.findUserByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Email not found"));
+        userService.sendPasswordResetCodeEmail(user);
 
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>("Code successfully sent to " + email,HttpStatus.OK);
     }
 
     @PostMapping("/user/reset/password_by_email")

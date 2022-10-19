@@ -8,10 +8,13 @@ import com.perpus.go.model.ktp.Agama;
 import com.perpus.go.model.ktp.Kawin;
 
 import javax.mail.MessagingException;
+import javax.validation.constraints.Email;
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 public interface UserService {
+    public void sendPasswordResetCodeEmail(User user)
+            throws MessagingException, UnsupportedEncodingException;
     public void sendVerificationEmail(User user)
             throws MessagingException, UnsupportedEncodingException;
     public void sendVerificationSuccessEmail(User user)
