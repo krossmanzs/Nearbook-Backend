@@ -1,5 +1,7 @@
 package com.perpus.go.service;
 
+import com.perpus.go.exception.BadRequestException;
+import com.perpus.go.exception.NotFoundException;
 import com.perpus.go.model.User;
 import com.perpus.go.repository.UserRepository;
 import com.perpus.go.util.Util;
@@ -114,5 +116,39 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public String checkUserPasswordByEmail(String email) {
         return userRepository.findPasswordByEmail(email);
+    }
+
+    @Override
+    public String generateNewVerificationCode(String email) {
+        Optional<User> optionalUser = findUserByEmail(email);
+
+        if (optionalUser.isEmpty()) {
+            throw new BadRequestException("User with " + email + " not found");
+        }
+
+        User user = optionalUser.get();
+
+        String code = Util.generateVerificationCode();
+        user.setVerificationCode(code);
+
+        return code;
+    }
+
+    @Override
+    public void resetPasswordByEmail(String email, String password, String code) {
+        Optional<User> optionalUser = findUserByEmail(email);
+
+        if (optionalUser.isEmpty()) {
+            throw new NotFoundException("User with " + email + " not found");
+        }
+
+        User user = userRepository.findByVerficationcode(email, code);
+
+        if (user != null) {
+            user.setPassword(Util.generatedHashedPassword(password));
+            user.setVerificationCode(Util.generateVerificationCode());
+        } else {
+            throw new BadRequestException("Invalid code");
+        }
     }
 }

@@ -15,4 +15,12 @@ public interface UserService {
             throws MessagingException, UnsupportedEncodingException;
     public Optional<User> findUserByEmail(String email);
     public String checkUserPasswordByEmail(String email);
+    public String generateNewVerificationCode(String email);
+    public User registerNewUserService(
+            String fname,
+            String lname,
+            String email,
+            String password
+    );
+    public void resetPasswordByEmail(String email, String password, String code);
 }

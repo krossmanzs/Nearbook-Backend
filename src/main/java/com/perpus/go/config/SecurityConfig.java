@@ -35,7 +35,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // Authorization settings here
-        http.authorizeRequests().antMatchers(Endpoints.LOGIN + "/**", Endpoints.REFRESH_TOKEN, Endpoints.REGISTER).permitAll();
+        http.authorizeRequests().antMatchers(
+                Endpoints.LOGIN + "/**",
+                Endpoints.REFRESH_TOKEN,
+                Endpoints.REGISTER,
+                Endpoints.RESET_CODE,
+                Endpoints.RESET_PASSWORD_BY_EMAIL
+                ).permitAll();
+
 //        http.authorizeRequests().antMatchers(GET, Endpoints.USER + "/**").hasAnyAuthority("ROLE_USER");
 //        http.authorizeRequests().antMatchers(POST, "/api/user/save/**").hasAnyAuthority("ROLE_ADMIN");
 

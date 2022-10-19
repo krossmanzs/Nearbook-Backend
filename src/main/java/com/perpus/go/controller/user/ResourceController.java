@@ -7,7 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.perpus.go.config.Token;
 import com.perpus.go.model.User;
-import com.perpus.go.service.UserServiceImpl;
+import com.perpus.go.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +26,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class ResourceController {
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
 
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -38,7 +38,7 @@ public class ResourceController {
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refresh_token);
                 String email = decodedJWT.getSubject();
-                Optional<User> user = userServiceImpl.findUserByEmail(email);
+                Optional<User> user = userService.findUserByEmail(email);
                 if (user.isEmpty()) {
                     throw new UsernameNotFoundException("No username found");
                 }
