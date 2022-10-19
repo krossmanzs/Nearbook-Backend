@@ -7,7 +7,6 @@ import com.perpus.go.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -23,13 +22,12 @@ public class RegisterController {
     @PostMapping("/register")
     public ResponseEntity<String> registerNewUser(@RequestBody RegisterUserRequest userDetail)
             throws MessagingException, UnsupportedEncodingException {
-        String fName = userDetail.getFirstName();
-        String lName = userDetail.getLastName();
+        String name = userDetail.getName();
         String email = userDetail.getEmail();
         String password = userDetail.getPassword();
 
         // check field
-        if (fName.isEmpty() || lName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
             return new ResponseEntity<>("Please Complete all Fields", HttpStatus.BAD_REQUEST);
         }
 
@@ -49,15 +47,9 @@ public class RegisterController {
             return new ResponseEntity<>("Wrong Password Format: Minimum eight characters, at least one letter, one number and one special character.", HttpStatus.BAD_REQUEST);
         }
 
-        password = (BCrypt.hashpw(password, BCrypt.gensalt()));
+        userService.registerNewUserService(userDetail);
+        userService.sendVerificationEmail(new User(userDetail));
 
-        User user = userService.registerNewUserService(fName, lName, email, password);
-
-        if (user != null) {
-            userService.sendVerificationEmail(user);
-            return new ResponseEntity<>("User Registered Successfully", HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>("Failed to Register User", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("User Registered Successfully", HttpStatus.OK);
     }
 }

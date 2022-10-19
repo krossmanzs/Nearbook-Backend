@@ -1,10 +1,12 @@
 package com.perpus.go.controller.user;
 
 import com.perpus.go.dto.ForgotPasswordByEmailRequest;
+import com.perpus.go.dto.RegisterKtpUserRequest;
 import com.perpus.go.exception.BadRequestException;
 import com.perpus.go.service.UserService;
 import com.perpus.go.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -100,5 +102,14 @@ public class UserController {
         );
 
         return new ResponseEntity<>("Reset password successfully",HttpStatus.OK);
+    }
+
+    @PostMapping("/user/register-ktp")
+    public void registerKtp(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String accessToken,
+            @RequestBody RegisterKtpUserRequest registerKtpUserRequest
+    ) {
+        String email = Util.getEmailFromAccessToken(accessToken);
+        userService.saveKtpForUser(registerKtpUserRequest, email);
     }
 }

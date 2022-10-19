@@ -7,14 +7,13 @@ import lombok.*;
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RegisterUserRequest {
     @Builder.Default
-    private String firstName = "";
+    private String name = "";
     @Builder.Default
-    private String lastName  = "";
+    private String gender = "";
     @Builder.Default
     private String email = "";
     @Builder.Default

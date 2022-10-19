@@ -1,11 +1,16 @@
 package com.perpus.go.model;
 
+import com.perpus.go.dto.RegisterUserRequest;
+import com.perpus.go.model.ktp.Ktp;
+import com.perpus.go.util.Util;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 @Getter
@@ -20,16 +25,20 @@ public class User {
     @GeneratedValue
     private int Id;
     @NotNull
-    private String firstName;
-    @NotNull
-    private String lastName;
+    private String name;
     @NotNull
     private String email;
     @NotNull
     private String password;
 
+    @NotNull
+    private String gender;
 
+    @ManyToMany(targetEntity = Role.class,fetch = FetchType.EAGER)
+    private Collection<Role> roles;
 
+    @OneToOne(targetEntity = Ktp.class,cascade = CascadeType.ALL)
+    private Ktp ktp;
 
     @CreationTimestamp
     private Date createdAt;
@@ -39,14 +48,20 @@ public class User {
 
     @Column(length = 6)
     private String verificationCode;
-    private boolean enabled;
+    @NotNull
+    private boolean verifiedEmail;
 
-    public User(String firstName, String lastName, String email, String password, String verificationCode) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.verificationCode = verificationCode;
-        this.enabled = false;
+    @NotNull
+    private boolean verifiedKtp;
+
+    public User(RegisterUserRequest registerUserRequest) {
+        this.name = registerUserRequest.getName();
+        this.email = registerUserRequest.getEmail();
+        this.password = registerUserRequest.getPassword();
+        this.verificationCode = Util.generateVerificationCode();
+        this.verifiedKtp = false;
+        this.verifiedEmail = false;
+        this.roles = new ArrayList<>();
+        this.gender = registerUserRequest.getGender();
     }
 }
