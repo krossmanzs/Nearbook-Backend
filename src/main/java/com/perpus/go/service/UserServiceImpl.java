@@ -195,19 +195,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void saveRole(Role role) {
         log.info("Saving new role {} to the database", role.getName());
-        roleRepository.save(role);
+        if (roleRepository.findByName(role.getName()).isEmpty()) {
+            roleRepository.save(role);
+        }
     }
 
     @Override
     public void saveKawin(Kawin kawin) {
         log.info("Saving new kawin {} to the database", kawin.getStatus());
-        kawinRepository.save(kawin);
+        if (kawinRepository.findByKode(kawin.getKode()).isEmpty()) {
+            kawinRepository.save(kawin);
+        }
     }
 
     @Override
     public void saveAgama(Agama agama) {
         log.info("Saving new agama {} to the database", agama.getName());
-        agamaRepository.save(agama);
+        if (agamaRepository.findByName(agama.getName()).isEmpty()) {
+            agamaRepository.save(agama);
+        }
     }
 
     @Override
