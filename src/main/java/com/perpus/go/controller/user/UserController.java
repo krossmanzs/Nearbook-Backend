@@ -115,4 +115,12 @@ public class UserController {
         String email = Util.getEmailFromAccessToken(accessToken);
         userService.saveKtpForUser(registerKtpUserRequest, email);
     }
+
+    @GetMapping("/user/get-detail")
+    public ResponseEntity<User> getUserDetail(@RequestHeader(HttpHeaders.AUTHORIZATION) String accessToken) {
+        String email = Util.getEmailFromAccessToken(accessToken);
+        User user = userService.findUserByEmail(email)
+                .orElseThrow(() -> new NotFoundException("User " + email + " not found"));
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 }

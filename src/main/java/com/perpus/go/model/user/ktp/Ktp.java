@@ -1,6 +1,7 @@
 package com.perpus.go.model.user.ktp;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.perpus.go.dto.user.RegisterKtpUserRequest;
 import lombok.*;
 
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 public class Ktp {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private int id;
     private String nik;
     private String namaLengkap;

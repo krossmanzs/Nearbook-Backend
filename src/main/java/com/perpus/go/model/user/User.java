@@ -1,5 +1,6 @@
 package com.perpus.go.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.perpus.go.dto.user.RegisterUserRequest;
 import com.perpus.go.model.user.ktp.Ktp;
 import com.perpus.go.util.Util;
@@ -23,12 +24,14 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue
+    @JsonIgnore
     private int Id;
     @NotNull
     private String name;
     @NotNull
     private String email;
     @NotNull
+    @JsonIgnore
     private String password;
 
     @NotNull
@@ -46,6 +49,7 @@ public class User {
     @UpdateTimestamp
     private Date updatedAt; // TODO: 10/17/2022 change all Date to LocalDate
 
+    @JsonIgnore
     @Column(length = 6)
     private String verificationCode;
     @NotNull

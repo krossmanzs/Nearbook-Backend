@@ -1,5 +1,6 @@
 package com.perpus.go.model.user.ktp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import javax.persistence.Id;
 public class Kawin {
     @Id
     @GeneratedValue
+    @JsonIgnore
     private Long id;
     private int kode;
     private String status;
