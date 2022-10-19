@@ -15,9 +15,9 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query(value = "SELECT password FROM user WHERE email = :email", nativeQuery = true)
     public String findPasswordByEmail(String email);
 
-    @Query(value = "UPDATE user SET enabled = true WHERE id = :id", nativeQuery = true)
+    @Query(value = "UPDATE user SET verified_email = true WHERE id = :id", nativeQuery = true)
     @Modifying
-    public void enable(int id);
+    public void verifyEmail(int id);
 
     @Query(value = "SELECT u FROM User u WHERE u.email = ?1 AND u.verificationCode = ?2")
     public User findByVerficationcode(String email, String code);

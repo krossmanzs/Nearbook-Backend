@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
-import javax.validation.constraints.Email;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -132,7 +131,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (user == null || user.isVerifiedEmail()) {
             return false;
         } else {
-            userRepository.enable(user.getId());
+            userRepository.verifyEmail(user.getId());
             sendVerificationSuccessEmail(user);
             return true;
         }

@@ -29,9 +29,11 @@ public class UserController {
 
     @GetMapping("/user/verify")
     public ResponseEntity<String> verifyAccount(
-            @RequestParam("email") String email,
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String accessToken,
             @RequestParam("code") String verificationCode
     ) throws MessagingException, UnsupportedEncodingException {
+        String email = Util.getEmailFromAccessToken(accessToken);
+
         // check field
         if (email.isEmpty() || verificationCode.isEmpty()) {
             return new ResponseEntity<>("Please Complete all Fields", HttpStatus.BAD_REQUEST);
@@ -44,8 +46,6 @@ public class UserController {
 
         // verify the user email and code
         boolean verified = userService.verify(email, verificationCode);
-
-        System.out.println("Code: " + verificationCode);
 
         if (verified) {
             return new ResponseEntity<>("Verification Succeeded!", HttpStatus.OK);
