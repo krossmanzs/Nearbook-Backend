@@ -1,6 +1,7 @@
 package com.perpus.go.exception.handler;
 
 import com.perpus.go.exception.BadRequestException;
+import com.perpus.go.exception.ForbiddenException;
 import com.perpus.go.exception.NotFoundException;
 import com.perpus.go.exception.error.ErrorDetails;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,15 @@ public class ApiExceptionHandler /*extends ResponseEntityExceptionHandler*/ {
             WebRequest request
     ) {
         ErrorDetails errorDetails = generateErrorDetails(HttpStatus.NOT_FOUND,e, request);
+        return new ResponseEntity<>(errorDetails, errorDetails.getHttpStatus());
+    }
+
+    @ExceptionHandler(value = {ForbiddenException.class})
+    public ResponseEntity<Object> handleForbiddenException(
+            BadRequestException e,
+            WebRequest request
+    ) {
+        ErrorDetails errorDetails = generateErrorDetails(HttpStatus.FORBIDDEN,e, request);
         return new ResponseEntity<>(errorDetails, errorDetails.getHttpStatus());
     }
 
