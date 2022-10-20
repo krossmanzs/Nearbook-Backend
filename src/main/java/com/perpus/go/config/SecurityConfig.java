@@ -15,9 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
-
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -52,8 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 Endpoints.OPTION_AGAMA + "/**",
                 Endpoints.OPTION_KAWIN + "/**",
                 Endpoints.LIBRARY + "/**",
-                Endpoints.LIST_BOOK + "/**",
-                Endpoints.LIST_LIBRARY + "/**"
+                Endpoints.LIST_ALL_BOOK + "/**",
+                Endpoints.LIST_ALL_LIBRARY + "/**"
                 ).hasAnyAuthority("ROLE_USER");
 //        http.authorizeRequests().antMatchers(POST, "/api/user/save/**").hasAnyAuthority("ROLE_ADMIN");
 
