@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LibraryService {
-    public void saveBook(AddBookRequest bookRequest);
+    public void saveBook(String email, AddBookRequest bookRequest);
     public void saveLibrary(String email, RegisterLibraryRequest libraryRequest);
     public Optional<Library> getLibrary(User owner);
     public List<Library> getAllLibraries();

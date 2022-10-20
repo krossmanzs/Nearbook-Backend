@@ -1,7 +1,6 @@
 package com.perpus.go.model.book;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.perpus.go.dto.library.AddBookRequest;
 import com.perpus.go.model.library.Library;
 import lombok.*;
@@ -59,8 +58,8 @@ public class Book {
         this.authors = bookRequest.getAuthors();
         this.genre = bookRequest.getGenre();
         this.totalPages = bookRequest.getTotalPages();
-        this.rating = bookRequest.getRating();
-        this.popularity = bookRequest.getPopularity();
+        this.rating = 0;
+        this.popularity = 0;
         this.language = bookRequest.getLanguage();
         this.description = bookRequest.getDescription();
         this.ebook = bookRequest.isEbook();

@@ -26,11 +26,12 @@ public class LibraryServiceImpl implements LibraryService{
     private final LibraryRepository libraryRepository;
 
     @Override
-    public void saveBook(AddBookRequest bookRequest) {
-        User owner = userService.getUserByAccToken(bookRequest.getAccessToken());
+    public void saveBook(String email, AddBookRequest bookRequest) {
+        User owner = userService.findUserByEmail(email)
+                .orElseThrow(() -> new NotFoundException(email + " user not found"));
 
         Library library = libraryRepository.findByOwner(owner)
-                .orElseThrow(() -> new NotFoundException(owner.getEmail() + "'s not found"));
+                .orElseThrow(() -> new NotFoundException(owner.getEmail() + "'s library not found, please register library first"));
 
         Book book = new Book(bookRequest);
         book.setLibrary(library);
