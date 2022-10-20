@@ -26,9 +26,7 @@ public class Library {
     private String name;
     private String address;
 
-//    @ManyToOne(targetEntity = Book.class)
-//    @JoinColumn(name = "lb_fk", referencedColumnName = "id") // lb = library book
-//    private Collection<Book> books = new ArrayList<>();
+    private String wallpaperImg;
 
     // https://stackoverflow.com/questions/3325387/infinite-recursion-with-jackson-json-and-hibernate-jpa-issue/18288939#18288939
     @OneToMany(mappedBy = "library")
@@ -47,6 +45,7 @@ public class Library {
     public Library(AddLibraryRequest libraryRequest) {
         this.name = libraryRequest.getName();
         this.address = libraryRequest.getAddress();
+        this.wallpaperImg = libraryRequest.getWallpaperImg();
         this.books = libraryRequest.getBooks();
         this.owner = libraryRequest.getOwner();
         this.galleries = libraryRequest.getGalleries();

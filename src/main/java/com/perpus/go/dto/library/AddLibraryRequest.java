@@ -13,6 +13,7 @@ import java.util.Set;
 public class AddLibraryRequest {
     private String name;
     private String address;
+    private String wallpaperImg;
     private Set<Book> books;
     private User owner;
     private Collection<String> galleries;
