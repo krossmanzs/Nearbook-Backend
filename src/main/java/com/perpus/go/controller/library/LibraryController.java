@@ -37,7 +37,7 @@ public class LibraryController {
         return new ResponseEntity<>(library, HttpStatus.OK);
     }
 
-    @GetMapping("/list/all/book")
+    @GetMapping("/library/book/all")
     public ResponseEntity<List<BookDetailResponse>> getBookList() {
         List<BookDetailResponse> bookDetailList = new ArrayList<>();
         libraryService.getAllBooks()
@@ -45,7 +45,7 @@ public class LibraryController {
         return new ResponseEntity<>(bookDetailList, HttpStatus.OK);
     }
 
-    @GetMapping("/list/all/library")
+    @GetMapping("/library/all")
     public ResponseEntity<List<LibraryDetailResponse>> getLibrarylist() {
         List<LibraryDetailResponse> libraryList = new ArrayList<>();
         libraryService.getAllLibraries()

@@ -1,7 +1,8 @@
 package com.perpus.go.service.library;
 
 import com.perpus.go.dto.library.AddBookRequest;
-import com.perpus.go.dto.library.AddLibraryRequest;
+import com.perpus.go.dto.library.RegisterLibraryRequest;
+import com.perpus.go.exception.AlreadyExistException;
 import com.perpus.go.exception.NotFoundException;
 import com.perpus.go.model.book.Book;
 import com.perpus.go.model.library.Library;
@@ -29,7 +30,7 @@ public class LibraryServiceImpl implements LibraryService{
         User owner = userService.getUserByAccToken(bookRequest.getAccessToken());
 
         Library library = libraryRepository.findByOwner(owner)
-                .orElseThrow(() -> new NotFoundException(bookRequest.getAccessToken() + "'s not found"));
+                .orElseThrow(() -> new NotFoundException(owner.getEmail() + "'s not found"));
 
         Book book = new Book(bookRequest);
         book.setLibrary(library);
@@ -37,9 +38,14 @@ public class LibraryServiceImpl implements LibraryService{
     }
 
     @Override
-    public void saveLibrary(AddLibraryRequest libraryRequest) {
-        libraryRepository.findByOwner(libraryRequest.getOwner());
-        libraryRepository.save(new Library(libraryRequest));
+    public void saveLibrary(String email, RegisterLibraryRequest libraryRequest) {
+        User owner = userService.findUserByEmail(email)
+                        .orElseThrow(() -> new NotFoundException(email + " user not found"));
+        Optional<Library> library = libraryRepository.findByOwner(owner);
+        if (library.isPresent()) {
+            throw new AlreadyExistException(owner.getEmail() + " Already have library");
+        }
+        libraryRepository.save(new Library(libraryRequest, owner));
     }
 
     @Override

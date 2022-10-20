@@ -1,7 +1,7 @@
 package com.perpus.go.model.library;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.perpus.go.dto.library.AddLibraryRequest;
+import com.perpus.go.dto.library.RegisterLibraryRequest;
 import com.perpus.go.model.book.Book;
 import com.perpus.go.model.user.User;
 import lombok.AllArgsConstructor;
@@ -42,14 +42,14 @@ public class Library {
     private int monthlyVisitor;
     private boolean isOpen;
 
-    public Library(AddLibraryRequest libraryRequest) {
+    public Library(RegisterLibraryRequest libraryRequest, User owner) {
         this.name = libraryRequest.getName();
         this.address = libraryRequest.getAddress();
         this.wallpaperImg = libraryRequest.getWallpaperImg();
-        this.books = libraryRequest.getBooks();
-        this.owner = libraryRequest.getOwner();
+        this.books = null;
+        this.owner = owner;
         this.galleries = libraryRequest.getGalleries();
-        this.monthlyVisitor = libraryRequest.getMonthlyVisitor();
-        this.isOpen = libraryRequest.isOpen();
+        this.monthlyVisitor = 0;
+        this.isOpen = false;
     }
 }
