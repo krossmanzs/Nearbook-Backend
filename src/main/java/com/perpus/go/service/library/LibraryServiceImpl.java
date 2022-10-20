@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,5 +45,15 @@ public class LibraryServiceImpl implements LibraryService{
     @Override
     public Optional<Library> getLibrary(User owner) {
         return libraryRepository.findByOwner(owner);
+    }
+
+    @Override
+    public List<Library> getAllLibraries() {
+        return libraryRepository.findAll();
+    }
+
+    @Override
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
     }
 }

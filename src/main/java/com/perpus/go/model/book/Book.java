@@ -1,6 +1,7 @@
 package com.perpus.go.model.book;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.perpus.go.dto.library.AddBookRequest;
 import com.perpus.go.model.library.Library;
 import lombok.*;

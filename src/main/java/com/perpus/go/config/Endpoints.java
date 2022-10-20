@@ -12,4 +12,6 @@ public class Endpoints {
     public static final String OPTION_AGAMA = MAIN + "/option/agama";
     public static final String OPTION_KAWIN = MAIN + "/option/kawin";
     public static final String LIBRARY = MAIN + "/library";
+    public static final String LIST_BOOK = MAIN + "/list/book";
+    public static final String LIST_LIBRARY = MAIN + "/list/library";
 }
