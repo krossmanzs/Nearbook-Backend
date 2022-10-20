@@ -26,6 +26,7 @@ public interface UserService {
     public void registerNewUserService(RegisterUserRequest registerUserRequest);
     public void resetPasswordByEmail(String email, String password, String code);
     public void addRoleToUser(String username, String roleName);
+    public User getUserByAccToken(String accessToken);
 
     public void saveRole(Role role);
 

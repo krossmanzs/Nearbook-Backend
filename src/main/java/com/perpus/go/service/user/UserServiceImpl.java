@@ -192,6 +192,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User getUserByAccToken(String accessToken) {
+        String email = Util.getEmailFromAccessToken(accessToken);
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("User " + email + " not found"));
+    }
+
+    @Override
     public void saveRole(Role role) {
         log.info("Saving new role {} to the database", role.getName());
         if (roleRepository.findByName(role.getName()).isEmpty()) {

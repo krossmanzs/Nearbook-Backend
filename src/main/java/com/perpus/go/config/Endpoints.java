@@ -11,4 +11,5 @@ public class Endpoints {
     public static final String USER_DETAIL = MAIN + "/user/get-detail";
     public static final String OPTION_AGAMA = MAIN + "/option/agama";
     public static final String OPTION_KAWIN = MAIN + "/option/kawin";
+    public static final String LIBRARY = MAIN + "/library";
 }
