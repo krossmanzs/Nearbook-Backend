@@ -1,5 +1,6 @@
 package com.perpus.go.exception.handler;
 
+import com.perpus.go.exception.AlreadyExistException;
 import com.perpus.go.exception.BadRequestException;
 import com.perpus.go.exception.ForbiddenException;
 import com.perpus.go.exception.NotFoundException;
@@ -38,6 +39,15 @@ public class ApiExceptionHandler /*extends ResponseEntityExceptionHandler*/ {
             WebRequest request
     ) {
         ErrorDetails errorDetails = generateErrorDetails(HttpStatus.FORBIDDEN,e, request);
+        return new ResponseEntity<>(errorDetails, errorDetails.getHttpStatus());
+    }
+
+    @ExceptionHandler(value = {AlreadyExistException.class})
+    public ResponseEntity<Object> handleAlreadyExistException(
+            BadRequestException e,
+            WebRequest request
+    ) {
+        ErrorDetails errorDetails = generateErrorDetails(HttpStatus.CONFLICT,e, request);
         return new ResponseEntity<>(errorDetails, errorDetails.getHttpStatus());
     }
 
