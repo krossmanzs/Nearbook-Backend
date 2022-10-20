@@ -43,15 +43,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 Endpoints.RESET_PASSWORD_BY_EMAIL
                 ).permitAll();
 
-        http.authorizeRequests().antMatchers(
-                Endpoints.REGISTER_KTP + "/**",
-                Endpoints.USER_DETAIL + "/**",
-                Endpoints.OPTION_AGAMA + "/**",
-                Endpoints.OPTION_KAWIN + "/**",
-                Endpoints.LIBRARY + "/**",
-                Endpoints.LIST_ALL_BOOK + "/**",
-                Endpoints.LIST_ALL_LIBRARY + "/**"
-                ).hasAnyAuthority("ROLE_USER");
+//        http.authorizeRequests().antMatchers(
+//                Endpoints.REGISTER_KTP + "/**",
+//                Endpoints.USER_DETAIL + "/**",
+//                Endpoints.OPTION_AGAMA + "/**",
+//                Endpoints.OPTION_KAWIN + "/**",
+//                Endpoints.LIBRARY + "/**",
+//                Endpoints.LIST_ALL_BOOK + "/**",
+//                Endpoints.LIST_ALL_LIBRARY + "/**"
+//                ).hasAnyAuthority("ROLE_USER");
 //        http.authorizeRequests().antMatchers(POST, "/api/user/save/**").hasAnyAuthority("ROLE_ADMIN");
 
         http.authorizeRequests().anyRequest().authenticated();
