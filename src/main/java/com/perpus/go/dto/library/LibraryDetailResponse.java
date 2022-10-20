@@ -12,7 +12,7 @@ public class LibraryDetailResponse {
     private Long id;
     private String name;
     private String address;
-    Set<Book> books;
+    private int totalBook;
     private OwnerMeta owner;
     private boolean isOpen;
 
@@ -20,7 +20,7 @@ public class LibraryDetailResponse {
         this.id = library.getId();
         this.name = library.getName();
         this.address = library.getAddress();
-        this.books = library.getBooks();
+        this.totalBook = library.getBooks().size();
         this.owner = new OwnerMeta(
                 library.getOwner().getName(),
                 library.getOwner().getEmail(),
