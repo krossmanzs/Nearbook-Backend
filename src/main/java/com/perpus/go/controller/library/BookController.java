@@ -45,4 +45,13 @@ public class BookController {
         response.put("qrCode", borrower.getQrCode());
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
+
+    @PostMapping("/library/borrow/scan/{scan_id}")
+    public ResponseEntity<?> scanBorrowBook(
+            @PathVariable("scan_id") String scanId,
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String accessToken) {
+        String email = Util.getEmailFromAccessToken(accessToken);
+        borrowService.acceptBorrow(email, scanId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

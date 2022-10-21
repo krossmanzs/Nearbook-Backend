@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @Transactional
@@ -33,5 +34,24 @@ public class BorrowServiceImpl implements BorrowService{
         Borrower borrower = new Borrower(book, user);
         borrowerRepository.save(borrower);
         return borrower;
+    }
+
+    @Override
+    public Borrower getBorrowerByQrCodeAndEmail(String email, String scanId) {
+        User user = userService.findUserByEmail(email)
+                .orElseThrow(() -> new NotFoundException(email + " not found"));
+        Borrower borrower = borrowerRepository
+                .findByUserAndQrCode(user.getId(), scanId)
+                .orElseThrow(() -> new NotFoundException(email + " does not have qr code with" + scanId));
+        if (borrower.getBorrowedAt() != null) {
+            throw new AlreadyBorrowedException(borrower.getBook().getTitle() + " already borrowed successfully");
+        }
+        return (borrower);
+    }
+
+    @Override
+    public void acceptBorrow(String email, String scanId) {
+        Borrower borrower = getBorrowerByQrCodeAndEmail(email, scanId);
+        borrower.setBorrowedAt(LocalDate.now());
     }
 }
