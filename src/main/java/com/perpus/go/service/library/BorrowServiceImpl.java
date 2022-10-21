@@ -1,6 +1,7 @@
 package com.perpus.go.service.library;
 
 import com.perpus.go.exception.AlreadyBorrowedException;
+import com.perpus.go.exception.BadRequestException;
 import com.perpus.go.exception.NotFoundException;
 import com.perpus.go.model.book.Book;
 import com.perpus.go.model.library.Borrower;
@@ -53,5 +54,18 @@ public class BorrowServiceImpl implements BorrowService{
     public void acceptBorrow(String email, String scanId) {
         Borrower borrower = getBorrowerByQrCodeAndEmail(email, scanId);
         borrower.setBorrowedAt(LocalDate.now());
+    }
+
+    @Override
+    public void returnBook(String email, Long bookId) {
+        Borrower borrower = borrowerRepository.findByBookId(bookId)
+                .orElseThrow(() -> new NotFoundException("No one borrowing book with id " + bookId));
+        if (borrower.getBorrowedAt() == null) {
+                throw new NotFoundException("No one borrowing book with id " + bookId);
+        } else if (!borrower.getBook().getLibrary().getOwner().getEmail().equals(email)) {
+            throw new BadRequestException("Only the owner can post if the book is returned");
+        }
+        borrower.setReturnedAt(LocalDate.now());
+        borrower.getBook().setBorrowed(false);
     }
 }

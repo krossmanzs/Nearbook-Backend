@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface BorrowerRepository extends JpaRepository<Borrower, Long> {
     @Query(value = "SELECT * FROM Borrower WHERE user_id = ?1 AND qr_code = ?2", nativeQuery = true)
     Optional<Borrower> findByUserAndQrCode(Integer userId, String scanId);
+    Optional<Borrower> findByBookId(Long bookId);
 }

@@ -54,4 +54,13 @@ public class BookController {
         borrowService.acceptBorrow(email, scanId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/library/return/book/{book_id}")
+    public ResponseEntity<?> returnBook(
+            @PathVariable("book_id") Long bookId,
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String accessToken) {
+        String email = Util.getEmailFromAccessToken(accessToken);
+        borrowService.returnBook(email, bookId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
