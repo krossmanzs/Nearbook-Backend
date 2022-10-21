@@ -23,10 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static java.util.Arrays.stream;
@@ -91,5 +88,9 @@ public class Util {
         } else {
             throw new BadRequestException("Invalid token format");
         }
+    }
+
+    public static String getRandomUUID() {
+        return UUID.randomUUID().toString();
     }
 }
