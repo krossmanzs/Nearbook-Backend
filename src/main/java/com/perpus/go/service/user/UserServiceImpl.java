@@ -128,9 +128,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throws MessagingException, UnsupportedEncodingException {
         User user = userRepository.findByVerficationcode(email, verificationCode);
 
-        if (user == null || user.isVerifiedEmail()) {
+        if (user == null) {
+            log.error(email + " not found");
             return false;
-        } else {
+        } else if (user.isVerifiedEmail()) {
+            log.error(email + " already verified");
+            return false;
+        }  else {
             userRepository.verifyEmail(user.getId());
             sendVerificationSuccessEmail(user);
             return true;
