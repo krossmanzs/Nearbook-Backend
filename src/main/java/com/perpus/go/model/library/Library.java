@@ -41,12 +41,16 @@ public class Library {
 
     private int monthlyVisitor;
     private boolean isOpen;
+    private Double latitude;
+    private Double longitude;
 
     public Library(RegisterLibraryRequest libraryRequest, User owner) {
         this.name = libraryRequest.getName();
         this.address = libraryRequest.getAddress();
         this.wallpaperImg = libraryRequest.getWallpaperImg();
         this.books = null;
+        this.longitude = libraryRequest.getLongitude();
+        this.latitude = libraryRequest.getLatitude();
         this.owner = owner;
         this.galleries = libraryRequest.getGalleries();
         this.monthlyVisitor = 0;
