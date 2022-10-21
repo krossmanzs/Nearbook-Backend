@@ -15,4 +15,6 @@ public interface LibraryService {
     public Optional<Library> getLibrary(User owner);
     public List<Library> getAllLibraries();
     public List<Book> getAllBooks();
+
+    public Optional<Book> getBook(Long bookId);
 }

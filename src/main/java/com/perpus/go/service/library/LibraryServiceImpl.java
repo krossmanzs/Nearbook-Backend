@@ -63,4 +63,9 @@ public class LibraryServiceImpl implements LibraryService{
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
+
+    @Override
+    public Optional<Book> getBook(Long bookId) {
+        return bookRepository.findById(bookId);
+    }
 }
