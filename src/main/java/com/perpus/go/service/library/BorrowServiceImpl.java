@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional
@@ -67,5 +68,16 @@ public class BorrowServiceImpl implements BorrowService{
         }
         borrower.setReturnedAt(LocalDate.now());
         borrower.getBook().setBorrowed(false);
+    }
+
+    @Override
+    public Borrower getBorrowerById(Long borrowId) {
+        return borrowerRepository.findById(borrowId)
+                .orElseThrow(() -> new NotFoundException("Borrower data with id " + borrowId + " not found"));
+    }
+
+    @Override
+    public List<Borrower> getAllBorrower() {
+        return borrowerRepository.findAll();
     }
 }

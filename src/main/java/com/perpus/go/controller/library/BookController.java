@@ -1,6 +1,8 @@
 package com.perpus.go.controller.library;
 
 import com.perpus.go.dto.library.AddBookRequest;
+import com.perpus.go.dto.library.borrower.BorrowerDetailResponse;
+import com.perpus.go.exception.BadRequestException;
 import com.perpus.go.exception.NotFoundException;
 import com.perpus.go.model.book.Book;
 import com.perpus.go.model.library.Borrower;
@@ -15,7 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -73,6 +77,48 @@ public class BookController {
         String email = Util.getEmailFromAccessToken(accessToken);
         borrowService.acceptBorrow(email, scanId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/library/borrow/scan/get-qr/{borrow_id}")
+    public ResponseEntity<?> getQrScanCode(
+            @PathVariable("borrow_id") Long borrowId,
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String accessToken) {
+        String email = Util.getEmailFromAccessToken(accessToken);
+        Borrower borrower = borrowService.getBorrowerById(borrowId);
+        if (!borrower.getUser().getEmail().equals(email)) {
+            throw new BadRequestException("You are not the borrower of id " + borrowId);
+        }
+        HashMap<String, String> response = new HashMap<>();
+        response.put("qrCode", borrower.getQrCode());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/library/borrow/get-detail/{borrow_id}")
+    public ResponseEntity<?> getBorrowerDetail(
+            @PathVariable("borrow_id") Long borrowId,
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String accessToken) {
+        String email = Util.getEmailFromAccessToken(accessToken);
+        Borrower borrower = borrowService.getBorrowerById(borrowId);
+        if (!borrower.getUser().getEmail().equals(email)) {
+            throw new BadRequestException("You are not the borrower of id " + borrowId);
+        }
+        return new ResponseEntity<>(borrower, HttpStatus.OK);
+    }
+
+    @GetMapping("/library/borrower/get-all")
+    public ResponseEntity<?> getListBorrower() {
+        List<BorrowerDetailResponse> response = new ArrayList<>();
+        borrowService.getAllBorrower()
+                .forEach(borrower -> response.add(new BorrowerDetailResponse(
+                    borrower.getId(),
+                    borrower.getUser().getName(),
+                    borrower.getBook().getTitle(),
+                    borrower.getQrCode(),
+                    borrower.getCreatedAt(),
+                    borrower.getBorrowedAt(),
+                    borrower.getReturnedAt()
+                )));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/library/return/book/{book_id}")
