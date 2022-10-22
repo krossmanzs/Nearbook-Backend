@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface LibraryService {
     public void saveBook(String email, AddBookRequest bookRequest);
     public void saveLibrary(String email, RegisterLibraryRequest libraryRequest);
+    public Library getLibrary(Long ownerEmail);
     public Optional<Library> getLibrary(User owner);
     public List<Library> getAllLibraries();
     public List<Book> getAllBooks();

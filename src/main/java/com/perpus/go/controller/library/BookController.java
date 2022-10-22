@@ -4,6 +4,7 @@ import com.perpus.go.dto.library.AddBookRequest;
 import com.perpus.go.exception.NotFoundException;
 import com.perpus.go.model.book.Book;
 import com.perpus.go.model.library.Borrower;
+import com.perpus.go.model.library.Library;
 import com.perpus.go.service.library.BorrowService;
 import com.perpus.go.service.library.LibraryService;
 import com.perpus.go.util.Util;
@@ -42,6 +43,14 @@ public class BookController {
         Book book = libraryService.getBook(bookId)
                 .orElseThrow(() -> new NotFoundException("Book with id " + bookId + " not found"));
         return new ResponseEntity<>(book, HttpStatus.OK);
+    }
+
+    @GetMapping("/library/{lib_id}/detail")
+    public ResponseEntity<?> getLibraryDetail(
+            @PathVariable("lib_id") Long libraryId
+    ) {
+        Library library = libraryService.getLibrary(libraryId);
+        return new ResponseEntity<>(library, HttpStatus.OK);
     }
 
     @PostMapping("/library/borrow/book/{book_id}")

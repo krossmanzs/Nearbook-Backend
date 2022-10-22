@@ -50,6 +50,12 @@ public class LibraryServiceImpl implements LibraryService{
     }
 
     @Override
+    public Library getLibrary(Long libraryId) {
+        return libraryRepository.findById(libraryId)
+                .orElseThrow(() -> new NotFoundException("library with " + libraryId + " not found"));
+    }
+
+    @Override
     public Optional<Library> getLibrary(User owner) {
         return libraryRepository.findByOwner(owner);
     }
