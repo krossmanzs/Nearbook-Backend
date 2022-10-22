@@ -1,6 +1,8 @@
 package com.perpus.go.controller.library;
 
 import com.perpus.go.dto.library.AddBookRequest;
+import com.perpus.go.exception.NotFoundException;
+import com.perpus.go.model.book.Book;
 import com.perpus.go.model.library.Borrower;
 import com.perpus.go.service.library.BorrowService;
 import com.perpus.go.service.library.LibraryService;
@@ -31,6 +33,15 @@ public class BookController {
         String email = Util.getEmailFromAccessToken(accessToken);
         libraryService.saveBook(email, addBookRequest);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/library/book/{book_id}/detail")
+    public ResponseEntity<?> getBookDetail(
+            @PathVariable("book_id") Long bookId
+    ) {
+        Book book = libraryService.getBook(bookId)
+                .orElseThrow(() -> new NotFoundException("Book with id " + bookId + " not found"));
+        return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
     @PostMapping("/library/borrow/book/{book_id}")
